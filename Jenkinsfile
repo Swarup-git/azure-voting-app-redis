@@ -1,5 +1,5 @@
 pipeline {
-   agent docker_exec
+   agent { label 'docker_exec' }
 
    stages {
       stage('Verify Branch') {
