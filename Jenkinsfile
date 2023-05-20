@@ -1,5 +1,5 @@
 pipeline {
-   agent any
+   agent docker_exec
 
    stages {
       stage('Verify Branch') {
