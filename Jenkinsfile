@@ -7,6 +7,23 @@ pipeline {
             echo "$GIT_BRANCH"
          }
       }
+      stage('Echo- Declarative pipleline example') {
+            when { branch pattern: "\\w+\\-pipeline", comparator: "REGEXP"}
+            steps {
+               echo 'This is a pipeline/master branch'
+            }
+      }
+      stage('Echo- Scripted pipleline example') {
+            steps {
+               script {
+                  if (env.BRANCH_NAME == 'master') {
+                     echo 'This is the master branch'
+                  } else {
+                     echo 'This is not the master branch'
+                  }
+               } 
+            }
+      }
       stage('Docker Build') {
          steps {
             sh(script: 'docker images -a')
