@@ -2,13 +2,13 @@ pipeline {
    agent { label 'docker_exec' }
 
    stages {
-      stage('Echo- Declarative pipleline example) {
+      stage('Echo- Declarative pipleline example') {
             when { branch pattern: "\\w+\\-pipeline", comparator: "REGEXP"}
             steps {
                echo 'This is a pipeline branch'
             }
       }
-      stage('Echo- Scripted pipleline example) {
+      stage('Echo- Scripted pipleline example') {
             steps {
                script {
                   if (env.BRANCH_NAME == 'master') {
