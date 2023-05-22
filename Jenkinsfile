@@ -8,7 +8,7 @@ pipeline {
          }
       }
       stage('Echo- Declarative pipleline example') {
-            when { branch pattern: "\\w+\\-pipeline", comparator: "REGEXP"}
+            when { branch pattern: "\\w+\\-master", comparator: "REGEXP"}
             steps {
                echo 'This is a pipeline/master branch'
             }
