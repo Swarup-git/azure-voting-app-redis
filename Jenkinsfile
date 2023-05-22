@@ -19,34 +19,23 @@ pipeline {
             """)
          }
       }
-      stage('Start test app') {
+      stage('Approve PROD Deploy') {
+         when {
+            branch 'master'
+         }
+         options {
+            timeout(time: 1, unit: 'HOURS') 
+         }
          steps {
-            sh(script: """
-               docker-compose up -d
-               ./scripts/test_container.ps1
-            """)
+            input message: "Deploy?"
          }
          post {
             success {
-               echo "App started successfully :)"
+               echo "Production Deploy Approved"
             }
-            failure {
-               echo "App failed to start :("
+            aborted {
+               echo "Production Deploy Denied"
             }
-         }
-      }
-      stage('Run Tests') {
-         steps {
-            sh(script: """
-               pytest ./tests/test_sample.py
-            """)
-         }
-      }
-      stage('Stop test app') {
-         steps {
-            sh(script: """
-               docker-compose down
-            """)
          }
       }
    }
