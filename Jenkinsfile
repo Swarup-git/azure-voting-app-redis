@@ -19,34 +19,17 @@ pipeline {
             """)
          }
       }
-      stage('Start test app') {
-         steps {
-            sh(script: """
-               docker-compose up -d
-               ./scripts/test_container.ps1
-            """)
-         }
-         post {
-            success {
-               echo "App started successfully :)"
+      stage('Push Container'){
+         steps{
+            echo "Workspace is $WORKSPACE"
+            dir("$WORKSPACE/azure-vote"){
+               script{
+                  docker.withRegistry('https://index.docker.io/v1/','forDockerHub'){
+                     def image = docker.build('cazdock/jenkinspluralsight:latest')
+                     image.push()
+                  }
+               }
             }
-            failure {
-               echo "App failed to start :("
-            }
-         }
-      }
-      stage('Run Tests') {
-         steps {
-            sh(script: """
-               pytest ./tests/test_sample.py
-            """)
-         }
-      }
-      stage('Stop test app') {
-         steps {
-            sh(script: """
-               docker-compose down
-            """)
          }
       }
    }
